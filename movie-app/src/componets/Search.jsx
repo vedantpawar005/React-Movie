@@ -14,7 +14,6 @@ const Search = (props) => {
         value={searchTerm}
         onChange={(e)=>{setSearchTerm(e.target.value)}}
         />
-        
 
       </div>
     </div>

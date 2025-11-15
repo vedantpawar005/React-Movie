@@ -1,4 +1,14 @@
 import React, { useEffect, useState } from 'react';
+const providerLinks = {
+  'Netflix': 'https://www.netflix.com/',
+  'Amazon Prime Video': 'https://www.primevideo.com/',
+  'Disney Plus': 'https://www.disneyplus.com/',
+  'Hulu': 'https://www.hulu.com/',
+  'Apple TV Plus': 'https://tv.apple.com/',
+  'HBO Max': 'https://www.max.com/',
+  'Peacock': 'https://www.peacocktv.com/',
+  'Paramount Plus': 'https://www.paramountplus.com/',
+};
 
 const MovieModal = ({ movie, onClose, apiOptions }) => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -11,7 +21,7 @@ const MovieModal = ({ movie, onClose, apiOptions }) => {
     const fetchMovieDetails = async () => {
       setIsLoading(true);
       try {
-        // Fetch movie details
+        // Fetch movie details  
         const response = await fetch(
           `https://api.themoviedb.org/3/movie/${movie.id}`,
           apiOptions
@@ -141,60 +151,100 @@ const MovieModal = ({ movie, onClose, apiOptions }) => {
                     <div className='providers-container'>
                       {/* Streaming Services */}
                       {watchProviders.US.flatrate && watchProviders.US.flatrate.length > 0 && (
-                        <div className='provider-type'>
-                          <h4>Stream</h4>
-                          <div className='provider-logos'>
-                            {watchProviders.US.flatrate.map((provider) => (
-                              <div key={provider.provider_id} className='provider-item'>
-                                <img
-                                  src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                                  alt={provider.provider_name}
-                                  title={provider.provider_name}
-                                />
-                                <span>{provider.provider_name}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+  <div className='provider-type'>
+    <h4>Stream</h4>
+    <div className='provider-logos'>
+      {watchProviders.US.flatrate.map((provider) => {
+        const link =
+          providerLinks[provider.provider_name] ||
+          watchProviders.US.link ||
+          '#';
+        return (
+          <a
+            key={provider.provider_id}
+            href={link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='provider-item'
+            title={`Watch on ${provider.provider_name}`}
+          >
+            <img
+              src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+              alt={provider.provider_name}
+            />
+            <span>{provider.provider_name}</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+)}
+
 
                       {/* Rent */}
                       {watchProviders.US.rent && watchProviders.US.rent.length > 0 && (
-                        <div className='provider-type'>
-                          <h4>Rent</h4>
-                          <div className='provider-logos'>
-                            {watchProviders.US.rent.map((provider) => (
-                              <div key={provider.provider_id} className='provider-item'>
-                                <img
-                                  src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                                  alt={provider.provider_name}
-                                  title={provider.provider_name}
-                                />
-                                <span>{provider.provider_name}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+  <div className='provider-type'>
+    <h4>Rent</h4>
+    <div className='provider-logos'>
+      {watchProviders.US.rent.map((provider) => {
+        const link =
+          providerLinks[provider.provider_name] ||
+          watchProviders.US.link ||
+          '#';
+        return (
+          <a
+            key={provider.provider_id}
+            href={link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='provider-item'
+            title={`Rent from ${provider.provider_name}`}
+          >
+            <img
+              src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+              alt={provider.provider_name}
+            />
+            <span>{provider.provider_name}</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+
 
                       {/* Buy */}
-                      {watchProviders.US.buy && watchProviders.US.buy.length > 0 && (
-                        <div className='provider-type'>
-                          <h4>Buy</h4>
-                          <div className='provider-logos'>
-                            {watchProviders.US.buy.map((provider) => (
-                              <div key={provider.provider_id} className='provider-item'>
-                                <img
-                                  src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                                  alt={provider.provider_name}
-                                  title={provider.provider_name}
-                                />
-                                <span>{provider.provider_name}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                     {watchProviders.US.buy && watchProviders.US.buy.length > 0 && (
+  <div className='provider-type'>
+    <h4>Buy</h4>
+    <div className='provider-logos'>
+      {watchProviders.US.buy.map((provider) => {
+        const link =
+          providerLinks[provider.provider_name] ||
+          watchProviders.US.link ||
+          '#';
+        return (
+          <a
+            key={provider.provider_id}
+            href={link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='provider-item'
+            title={`Buy from ${provider.provider_name}`}
+          >
+            <img
+              src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+              alt={provider.provider_name}
+            />
+            <span>{provider.provider_name}</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+)}
+
                     </div>
                   ) : (
                     <p className='no-providers'>
