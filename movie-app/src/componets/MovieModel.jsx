@@ -15,25 +15,24 @@ const MovieModal = ({ movie, onClose, apiOptions }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [watchProviders, setWatchProviders] = useState(null);
 
-  console.log('MovieModal rendered with movie:', movie);
+const withApiKey = (url) => {
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY; // or import at top of file
+  return url.includes('?') ? `${url}&api_key=${API_KEY}` : `${url}?api_key=${API_KEY}`;
+};
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       setIsLoading(true);
       try {
         // Fetch movie details  
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie.id}`,
-          apiOptions
-        );
+        const response = await fetch(withApiKey(`https://api.themoviedb.org/3/movie/${movie.id}`), apiOptions);
+
         const data = await response.json();
         setMovieDetails(data);
 
         // Fetch watch providers
-        const providersResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie.id}/watch/providers`,
-          apiOptions
-        );
+        const providersResponse = await fetch(withApiKey(`https://api.themoviedb.org/3/movie/${movie.id}/watch/providers`), apiOptions);
+
         const providersData = await providersResponse.json();
         setWatchProviders(providersData.results);
       } catch (error) {

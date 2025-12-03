@@ -8,10 +8,12 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 const API_OPTIONS = {
   method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${API_KEY}`,
-  },
+  headers: { accept: 'application/json' },
+};
+
+
+const withApiKey = (url) => {
+  return url.includes('?') ? `${url}&api_key=${API_KEY}` : `${url}?api_key=${API_KEY}`;
 };
 function App()
 {
@@ -40,7 +42,7 @@ const fetchMovies=async()=>
      setErrorMessage('');
     try
     {
-      const endpoint=`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint=withApiKey(`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`);
       const response=await fetch(endpoint,API_OPTIONS);
       
       if(!response.ok)
@@ -68,7 +70,7 @@ const fetchMovies=async()=>
 
  const fetchTrendingMovies = async () => {
     try {
-      const endpoint = `${API_BASE_URL}/trending/movie/week`;
+      const endpoint = withApiKey(`${API_BASE_URL}/trending/movie/week`);
       const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
@@ -85,7 +87,7 @@ const searchMovies = async (query) => {
     setIsLoading(true);
     setErrorMessage('');
     try {
-      const endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`;
+      const endpoint = withApiKey(`${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`);
       const response = await fetch(endpoint, API_OPTIONS);
       
       if (!response.ok) {
